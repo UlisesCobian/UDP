@@ -1,0 +1,41 @@
+# server
+
+import socket 
+
+
+def main():
+
+ localIP = "127.0.0.1"
+ localPort = 20001
+ bufferSize = 1024
+
+ msgFromServer = "Holiiis Cliente UDP"
+ bytesToSend = str.encode(msgFromServer)
+
+ # Se crea un socket datagrama
+
+ UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+
+ #Bind to address and ip
+ UDPServerSocket.bind(("127.0.0.1", 20001))
+ print("Servidor UDP en espera")
+
+ # Listening for incoming datagram
+
+ while(True):
+     bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
+     message = bytesAddressPair[0]
+     address = bytesAddressPair[1]
+
+     clientMsg = "Mensaje del cliente: {}".format(message)
+     clientIP = "Dirección IP del clinete: {}".format(address)
+
+     print(clientMsg)
+     #print(message)
+     print(clientIP)
+     #print(address)
+
+     UDPServerSocket.sendto(bytesToSend, address)
+
+if __name__ == "__main__":
+    main()  
